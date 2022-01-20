@@ -4,6 +4,9 @@
   "main": "main.js",
   "license": "MIT",
   "type": "module",
+  "engines": {
+    "node": ">=16.6.0"
+  },
   "dependencies": {
     "babel-preset-react": "^6.24.1",
     "discord.js": "^13.6.0",
