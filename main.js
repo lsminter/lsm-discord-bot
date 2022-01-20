@@ -23,8 +23,7 @@ function Uptime() {
 }
 
 client.on("ready", () => {
-  reacord.send(channelId, `Testing`)
-  reacord.send(channelId, <Uptime />)
+  reacord.send(channelId, <>Testing</>)
 })
 
 await client.login(process.env.BOT_TOKEN)
