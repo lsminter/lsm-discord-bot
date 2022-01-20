@@ -8,10 +8,23 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_
 const reacord = new ReacordDiscordJs(client)
 const channelId = process.env.CHANNEL_ID
 
+function Uptime() {
+  const [startTime] = useState(Date.now())
+  const [currentTime, setCurrentTime] = useState(Date.now())
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      currentTime(Date.now())
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [])
+
+  return <>this message has been shown for {currentTime - startTime}ms</>
+}
 
 client.on("ready", () => {
-  reacord.send(channelId, `{return: 1}`)
+  reacord.send(channelId, `Testing`)
+  reacord.send(channelId, <Uptime />)
 })
 
 await client.login(process.env.BOT_TOKEN)
