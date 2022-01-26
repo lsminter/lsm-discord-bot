@@ -46,7 +46,7 @@ client.on("messageCreate", async message => {
       //deletes the bot's message after 30s
       setTimeout(() => {sentMessage.delete()}, 30000)
     } else {
-      const sentMessage = await message.send({content: `${message.author} is looking for a group of ${numberOfPeople} to do ${event} ${remainingTime}! Reply to this message with 👆 if you are interested.`})
+      const sentMessage = await message.reply({content: `${message.author} is looking for a group of ${numberOfPeople} to do ${event} ${remainingTime}! Reply to this message with 👆 if you are interested.`})
         sentMessage.react('👆')
         
         //deletes the user's message
