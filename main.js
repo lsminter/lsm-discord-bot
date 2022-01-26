@@ -27,15 +27,17 @@ client.on("messageCreate", async message => {
     const event = allArgs[0]
     const numberOfPeople = allArgs[1]
     const duration = allArgs[2]
-    const adding = Math.round((new Date()).getTime() / 1000)
-    const remainingTime = `<t:${adding + (duration * 60)}:R>`
-    
+    const currentTime = Math.round((new Date()).getTime() / 1000)
+    const remainingTime = `<t:${currentTime + (duration * 60)}:R>`
+    const deleteTimer = (duration * 60000) + 60000
+
     //simple error handling
     if (remainingTime === '<t:NaN:R>'){
       message.reply('Your minutes has to be only a number. Check your command and try again.')
     } else {
-      const text = await message.reply({content: `${message.author} is looking for a group of ${numberOfPeople} to do ${event} ${remainingTime}! Reply to this message with 👆 if you are interested.`})
-      text.react('👆')
+      const sentMessage = await message.reply({content: `${message.author} is looking for a group of ${numberOfPeople} to do ${event} ${remainingTime}! Reply to this message with 👆 if you are interested.`})
+        sentMessage.react('👆')
+        setTimeout(() => {sentMessage.delete()}, deleteTimer)
     }    
   }
 });
