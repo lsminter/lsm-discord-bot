@@ -1,11 +1,8 @@
 import { Client, Intents } from "discord.js"
-import { ReacordDiscordJs } from "reacord"
 import dotenv from 'dotenv'
 dotenv.config()
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-const reacord = new ReacordDiscordJs(client)
-const channelId = process.env.WELCOME_CHANNEL_ID
 
 client.on("messageCreate", async function(message) {
   const prefix = "!"
@@ -17,7 +14,7 @@ client.on("messageCreate", async function(message) {
   const command = args.shift().toLowerCase();
 
   if (command === "eventhelp") {
-    message.reply(`To work the event command, type !event, how many people you want, and how many minutes until you want to do the event.`)
+    message.reply(`To work the !event command, type !event, how many people you want, and how many minutes until you want to do the event.`)
   }
 
   else if (command === "event") {
