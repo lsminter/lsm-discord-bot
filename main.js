@@ -39,8 +39,14 @@ client.on("messageCreate", async message => {
     //simple error handling
     if (remainingTime === '<t:NaN:R>'){
       const sentMessage = await message.reply('Your minutes has to be only a number. Check your command and try again.')
+      
+      //deletes the user's message after 30s
+      setTimeout(() => {message.delete()}, 30000)
+        
+      //deletes the bot's message after 30s
+      setTimeout(() => {sentMessage.delete()}, 30000)
     } else {
-      const sentMessage = await message.reply({content: `${message.author} is looking for a group of ${numberOfPeople} to do ${event} ${remainingTime}! Reply to this message with 👆 if you are interested.`})
+      const sentMessage = await message.send({content: `${message.author} is looking for a group of ${numberOfPeople} to do ${event} ${remainingTime}! Reply to this message with 👆 if you are interested.`})
         sentMessage.react('👆')
         
         //deletes the user's message
