@@ -4,7 +4,11 @@ dotenv.config()
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
-client.on("messageCreate", async function(message) {
+client.once('ready', () => {
+	console.log('Ready!');
+});
+
+client.on("messageCreate", async message => {
   const prefix = "!"
   if (message.author.bot) return;
   if (!message.content.startsWith(prefix)) return;
@@ -14,7 +18,7 @@ client.on("messageCreate", async function(message) {
   const command = args.shift().toLowerCase();
 
   if (command === "eventhelp") {
-    message.reply(`To work the !event command, type !event, how many people you want, and how many minutes until you want to do the event.`)
+    message.reply(`To work the !event command, type !event, the event you want to do (keep in mind it has to be one word), how many people you want, and how many minutes until you want to do the event.`)
   }
 
   else if (command === "event") {
@@ -27,9 +31,8 @@ client.on("messageCreate", async function(message) {
     const remainingTime = `<t:${adding + (duration * 60)}:R>`
     console.log(remainingTime)
 
-    
-    message.reply(`${message.author} is looking for a group of ${numberOfPeople} to do ${event} ${remainingTime}! Reply to this message with 👆 if you are interested.`).react(`👆`)
-
+    const text = await message.reply({content: `${message.author} is looking for a group of ${numberOfPeople} to do ${event} ${remainingTime}! Reply to this message with 👆 if you are interested.`})
+    text.react('👆')
   }
 });
 
