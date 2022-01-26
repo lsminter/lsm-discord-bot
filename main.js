@@ -57,6 +57,6 @@ client.on("messageCreate", async message => {
         
     }
   }
-});
+}); 
 
 await client.login(process.env.BOT_TOKEN)
