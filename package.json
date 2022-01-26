@@ -13,6 +13,7 @@
     "dotenv": "^11.0.0",
     "esno": "^0.14.0",
     "lodash-es": "^4.17.21",
+    "moment": "^2.29.1",
     "osrs-json-api": "^1.4.7",
     "reacord": "^0.3.4",
     "react": "^17.0.2",
