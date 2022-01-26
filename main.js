@@ -37,7 +37,10 @@ client.on("messageCreate", async message => {
     } else {
       const sentMessage = await message.reply({content: `${message.author} is looking for a group of ${numberOfPeople} to do ${event} ${remainingTime}! Reply to this message with 👆 if you are interested.`})
         sentMessage.react('👆')
+        //deletes the bot's message
         setTimeout(() => {sentMessage.delete()}, deleteTimer)
+        //deletes the user's message
+        setTimeout(() => {message.delete()}, deleteTimer)
     }    
   }
 });
