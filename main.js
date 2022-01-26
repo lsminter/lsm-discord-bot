@@ -28,7 +28,7 @@ client.on("messageCreate", async function(message) {
     console.log(remainingTime)
 
     
-    message.reply(`${message.author} is looking for a group of ${numberOfPeople} to do ${event} ${remainingTime}! Reply to this message with 👆 if you are interested.`)
+    message.reply(`${message.author} is looking for a group of ${numberOfPeople} to do ${event} ${remainingTime}! Reply to this message with 👆 if you are interested.`).react(`👆`)
 
   }
 });
