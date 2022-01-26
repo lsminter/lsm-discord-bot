@@ -29,10 +29,14 @@ client.on("messageCreate", async message => {
     const duration = allArgs[2]
     const adding = Math.round((new Date()).getTime() / 1000)
     const remainingTime = `<t:${adding + (duration * 60)}:R>`
-    console.log(remainingTime)
-
-    const text = await message.reply({content: `${message.author} is looking for a group of ${numberOfPeople} to do ${event} ${remainingTime}! Reply to this message with 👆 if you are interested.`})
-    text.react('👆')
+    
+    //simple error handling
+    if (remainingTime === '<t:NaN:R>'){
+      message.reply('Your minutes has to be only a number. Check your command and try again.')
+    } else {
+      const text = await message.reply({content: `${message.author} is looking for a group of ${numberOfPeople} to do ${event} ${remainingTime}! Reply to this message with 👆 if you are interested.`})
+      text.react('👆')
+    }    
   }
 });
 
