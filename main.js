@@ -27,8 +27,10 @@ client.on("messageCreate", async message => {
     const numberOfPeople = args[1]
     const duration = args[2]
 
-    //gets the current time
+    //gets the current time and converts it to unix timestamp
     const currentTime = Math.round((new Date()).getTime() / 1000)
+    /*takes the number that the user gives, multiplies it by 60 to change it to seconds, 
+    then adds it to the current time */
     const remainingTime = `<t:${currentTime + (duration * 60)}:R>`
 
     //Calculates how long until the event starts in milliseconds then adds one minute. 
@@ -36,15 +38,18 @@ client.on("messageCreate", async message => {
 
     //simple error handling
     if (remainingTime === '<t:NaN:R>'){
-      message.reply('Your minutes has to be only a number. Check your command and try again.')
+      const sentMessage = await message.reply('Your minutes has to be only a number. Check your command and try again.')
     } else {
       const sentMessage = await message.reply({content: `${message.author} is looking for a group of ${numberOfPeople} to do ${event} ${remainingTime}! Reply to this message with 👆 if you are interested.`})
         sentMessage.react('👆')
-        //deletes the bot's message
-        setTimeout(() => {sentMessage.delete()}, deleteTimer)
+        
         //deletes the user's message
         message.delete()
-    }    
+        
+        //deletes the bot's message
+        setTimeout(() => {sentMessage.delete()}, deleteTimer)
+        
+    }
   }
 });
 
