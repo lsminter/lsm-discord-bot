@@ -23,12 +23,15 @@ client.on("messageCreate", async message => {
 
   else if (command === "event") {
     
-    const allArgs = args.map(x => x)
-    const event = allArgs[0]
-    const numberOfPeople = allArgs[1]
-    const duration = allArgs[2]
+    const event = args[0]
+    const numberOfPeople = args[1]
+    const duration = args[2]
+
+    //gets the current time
     const currentTime = Math.round((new Date()).getTime() / 1000)
     const remainingTime = `<t:${currentTime + (duration * 60)}:R>`
+
+    //Calculates how long until the event starts in milliseconds then adds one minute. 
     const deleteTimer = (duration * 60000) + 60000
 
     //simple error handling
@@ -40,7 +43,7 @@ client.on("messageCreate", async message => {
         //deletes the bot's message
         setTimeout(() => {sentMessage.delete()}, deleteTimer)
         //deletes the user's message
-        setTimeout(() => {message.delete()}, deleteTimer)
+        message.delete()
     }    
   }
 });
