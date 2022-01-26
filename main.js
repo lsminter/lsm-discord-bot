@@ -18,7 +18,13 @@ client.on("messageCreate", async message => {
   const command = args.shift().toLowerCase();
 
   if (command === "eventhelp") {
-    message.reply(`To work the !event command, type !event, the event you want to do (keep in mind it has to be one word), how many people you want, and how many minutes until you want to do the event. Here is a template: !event Corp 4 20`)
+    const sentMessage = await message.reply(`To work the !event command, type !event, the event you want to do (keep in mind it has to be one word), how many people you want, and how many minutes until you want to do the event. Here is a template: !event Corp 4 20`)
+
+    //deletes the user's message instantly
+   message.delete()
+        
+    //deletes the bot's message after 2 minutes
+    setTimeout(() => {sentMessage.delete()}, 120000)
   }
 
   else if (command === "event") {
@@ -57,6 +63,6 @@ client.on("messageCreate", async message => {
         
     }
   }
-}); 
+});
 
 await client.login(process.env.BOT_TOKEN)
