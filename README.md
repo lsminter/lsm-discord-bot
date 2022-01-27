@@ -12,7 +12,7 @@ I currently have no real direction for the bot. Just adding in commands as peopl
 
 Commands start with a `!`. 
 
-`!commands` will list all of the commands. 
+`!allcommands` will list all of the commands. 
 
 `!eventhelp` will show you how to run the `!event` command. 
 
