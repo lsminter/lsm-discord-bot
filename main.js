@@ -73,7 +73,7 @@ client.on("messageCreate", async message => {
     }
   }
   else if (command === "eventstats" ){
-    const groupId = process.env.GROUP_ID
+    const groupId = process.env.WISE_OLD_MAN_GROUP_ID
     const recentCompetitionId = await fetch(`https://wiseoldman.net/api/groups/${groupId}/competitions`)
       .then(response => response.json())
       .then(data => data[0].id)
