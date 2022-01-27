@@ -8,24 +8,15 @@
     "node": ">=16.6.0"
   },
   "dependencies": {
-    "babel-preset-react": "^6.24.1",
     "discord.js": "^13.6.0",
     "dotenv": "^11.0.0",
-    "lodash-es": "^4.17.21",
-    "moment": "^2.29.1",
     "node-fetch": "^3.2.0",
-    "osrs-json-api": "^1.4.7",
-    "react": "^17.0.2",
-    "react-dom": "17.0.2"
+    "osrs-json-api": "^1.4.7"
   },
   "scripts": {
     "start": "node main.js"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.7",
-    "@babel/node": "^7.16.8",
-    "@babel/preset-env": "^7.16.8",
-    "@babel/preset-react": "^7.16.7",
-    "babel-cli": "^6.26.0"
+    "@babel/node": "^7.16.8"
   }
 }
