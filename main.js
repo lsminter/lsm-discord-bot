@@ -90,7 +90,7 @@ client.on("messageCreate", async message => {
     const thirdPlace = competitionData[2].username
     const thirdPlaceXp = competitionData[2].progress.gained
     
-    message.reply({content: `The top three players are: ${firstPlace} with ${firstPlaceXp} experience, ${secondPlace} with ${secondPlaceXp} experience, and ${thirdPlace} with ${thirdPlaceXp}!`})
+    message.reply({content: `The top three players are: First place is ${firstPlace} with ${firstPlaceXp} experience, Second place is ${secondPlace} with ${secondPlaceXp} experience, and Third place is ${thirdPlace} with ${thirdPlaceXp}!`})
   }
 });
 
