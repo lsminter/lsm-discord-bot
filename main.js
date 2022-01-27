@@ -42,9 +42,6 @@ client.on("messageCreate", async message => {
     //Takes the rest of the elements that are left in the array and combines them with a space and assigns it to the event
     const event = args.join(" ")
 
-
-
-
     //gets the current time and converts it to unix timestamp
     const currentTime = Math.round((new Date()).getTime() / 1000)
     /*takes the number that the user gives, multiplies it by 60 to change it to seconds, 
