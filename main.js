@@ -29,18 +29,21 @@ client.on("messageCreate", async message => {
 
   else if (command === "event") {
     
-    const event = args[0]
-    const numberOfPeople = args[1]
-    const duration = args[2]
+    const minutes = args.pop()
+    const numberOfPeople = args.pop()
+    const event = args.join(" ")
+
+
+
 
     //gets the current time and converts it to unix timestamp
     const currentTime = Math.round((new Date()).getTime() / 1000)
     /*takes the number that the user gives, multiplies it by 60 to change it to seconds, 
     then adds it to the current time */
-    const remainingTime = `<t:${currentTime + (duration * 60)}:R>`
+    const remainingTime = `<t:${currentTime + (minutes * 60)}:R>`
 
     //Calculates how long until the event starts in milliseconds then adds one minute. 
-    const deleteTimer = (duration * 60000) + 60000
+    const deleteTimer = (minutes * 60000) + 60000
 
     //simple error handling
     if (remainingTime === '<t:NaN:R>'){
