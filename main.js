@@ -72,7 +72,7 @@ client.on("messageCreate", async message => {
         
     }
   }
-  else if (command === "stats" ){
+  else if (command === "eventstats" ){
     const recentCompetitionId = await fetch('https://wiseoldman.net/api/groups/651/competitions')
       .then(response => response.json())
       .then(data => data[0].id)
