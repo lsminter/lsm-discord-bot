@@ -32,7 +32,7 @@ client.on("messageCreate", async message => {
   }
 
   else if (command === "event") {
-    
+    console.log(args)
     //Takes the last item in the array and assigns it to minutes
     const minutes = args.pop()
 
@@ -91,6 +91,28 @@ client.on("messageCreate", async message => {
     const thirdPlaceXp = competitionData[2].progress.gained
     
     message.reply({content: `The top three players are: First place is ${firstPlace} with ${firstPlaceXp} experience, Second place is ${secondPlace} with ${secondPlaceXp} experience, and Third place is ${thirdPlace} with ${thirdPlaceXp}!`})
+  }
+  else if (command === "userstats") {
+    const name = args[0]
+    const firstMessage = await message.reply({content: "Calculating... Please be patient"})
+
+    const groupId = process.env.WISE_OLD_MAN_GROUP_ID
+    const recentCompetitionId = await fetch(`https://wiseoldman.net/api/groups/${groupId}/competitions`)
+      .then(response => response.json())
+      .then(data => data[0].id)
+    
+    
+    const competitionData = await fetch(`https://wiseoldman.net/api/competitions/${recentCompetitionId}`)
+      .then(response => response.json())
+      .then(data => data.participants)
+
+    const usersStats = competitionData.map(function(value) {
+      if (name === value.username){
+        message.reply({content: `${name} has gained ${value.progress.gained} experience this competition!`})
+        firstMessage.delete()
+      }
+    })
+    
   }
 });
 
