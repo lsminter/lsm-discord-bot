@@ -1,4 +1,5 @@
 import { Client, Intents } from "discord.js"
+import fetch from "node-fetch";
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -29,8 +30,13 @@ client.on("messageCreate", async message => {
 
   else if (command === "event") {
     
+    //Takes the last item in the array and assigns it to minutes
     const minutes = args.pop()
+
+    //Takes the new last item in the array and assigns it to the number of people
     const numberOfPeople = args.pop()
+
+    //Takes the rest of the elements that are left in the array and combines them with a space and assigns it to the event
     const event = args.join(" ")
 
 
@@ -65,6 +71,25 @@ client.on("messageCreate", async message => {
         setTimeout(() => {sentMessage.delete()}, deleteTimer)
         
     }
+  }
+  else if (command === "stats" ){
+    const recentCompetitionId = await fetch('https://wiseoldman.net/api/groups/651/competitions')
+      .then(response => response.json())
+      .then(data => data[0].id)
+    
+    
+    const competitionData = await fetch(`https://wiseoldman.net/api/competitions/${recentCompetitionId}`)
+      .then(response => response.json())
+      .then(data => data.participants)
+
+    const firstPlace = competitionData[0].username
+    const firstPlaceXp = competitionData[0].progress.gained
+    const secondPlace = competitionData[1].username
+    const secondPlaceXp = competitionData[1].progress.gained
+    const thirdPlace = competitionData[2].username
+    const thirdPlaceXp = competitionData[2].progress.gained
+    
+    message.reply({content: `The top three players are: ${firstPlace} with ${firstPlaceXp} experience, ${secondPlace} with ${secondPlaceXp} experience, and ${thirdPlace} with ${thirdPlaceXp}!`})
   }
 });
 
