@@ -77,11 +77,12 @@ client.on("messageCreate", async message => {
   }
   else if (command === "eventstats" ){
     const groupId = process.env.WISE_OLD_MAN_GROUP_ID
-    const recentCompetitionId = await fetch(`https://wiseoldman.net/api/groups/${groupId}/competitions`)
+    const recentCompetition = await fetch(`https://wiseoldman.net/api/groups/${groupId}/competitions`)
       .then(response => response.json())
-      .then(data => data[0].id)
+      .then(data => data[0])
     
-    
+    const recentCompetitionId = recentCompetition.id
+
     const competitionData = await fetch(`https://wiseoldman.net/api/competitions/${recentCompetitionId}`)
       .then(response => response.json())
       .then(data => data.participants)
@@ -93,7 +94,18 @@ client.on("messageCreate", async message => {
     const thirdPlace = competitionData[2].username
     const thirdPlaceXp = competitionData[2].progress.gained
     
-    message.reply({content: `The top three players are: First place is ${firstPlace} with ${firstPlaceXp} experience, Second place is ${secondPlace} with ${secondPlaceXp} experience, and Third place is ${thirdPlace} with ${thirdPlaceXp}!`})
+    const endingDate = new Date(recentCompetition.endsAt)
+    const endDateUNIX = Math.floor(endingDate.getTime() / 1000)    
+    
+    const today = new Date()
+    const todayUNIX = Math.floor(today.getTime() / 1000)
+
+    if (todayUNIX > endDateUNIX) {
+      message.reply({content: `There are no current competitions running.`})
+      calculatingMessage.delete()
+    } else {
+      message.reply({content: `The top three players are: First place is ${firstPlace} with ${firstPlaceXp} experience, Second place is ${secondPlace} with ${secondPlaceXp} experience, and Third place is ${thirdPlace} with ${thirdPlaceXp}!`})
+    }
   }
   else if (command === "userstats") {
     const name = args.join(" ").toLowerCase()
