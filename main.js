@@ -19,13 +19,17 @@ client.on("messageCreate", async message => {
   const command = args.shift().toLowerCase();
 
   if (command === "allcommands") {
-    message.reply({content: "The commands are !eventhelp, !event, !eventstats, and !userstats."})
+    const botMessage = await message.reply({content: "The commands are !eventhelp, !event, !eventstats, and !userstats."})
+    setTimeout(() => {
+      botMessage.delete()
+      message.delete()
+    }, 30000)
   }
   else if (command === "eventhelp") {
     const sentMessage = await message.reply(`To work the !event command, type !event, the event you want to do (it can be as many words as you want), how many people you want, and how many minutes until you want to do the event. Here is a template: !event Corp 4 20`)
 
     //deletes the user's message instantly
-   message.delete()
+    message.delete()
         
     //deletes the bot's message after 2 minutes
     setTimeout(() => {sentMessage.delete()}, 120000)
