@@ -6,7 +6,7 @@ dotenv.config()
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
 client.once('ready', () => {
-	console.log('Ready!');
+  console.log('Ready!');
 });
 
 client.on("messageCreate", async message => {
@@ -103,17 +103,25 @@ client.on("messageCreate", async message => {
     const recentCompetition = await fetch(`https://wiseoldman.net/api/groups/${groupId}/competitions`)
       .then(response => response.json())
       .then(data => data[0])
-    
+
     const recentCompetitionId = recentCompetition.id
 
-    
     const competitionData = await fetch(`https://wiseoldman.net/api/competitions/${recentCompetitionId}`)
       .then(response => response.json())
       .then(data => data.participants)
 
-    let myFoundUser = competitionData.find((user) => user.username === name)
+    let myFoundUser = competitionData.find((user) => user.username === name)    
+    
+    const endingDate = new Date(recentCompetition.endsAt)
+    const endDateUNIX = Math.floor(endingDate.getTime() / 1000)    
+    
+    const today = new Date()
+    const todayUNIX = Math.floor(today.getTime() / 1000)
 
-    if (myFoundUser){
+    if (todayUNIX > endDateUNIX) {
+      message.reply({content: `There are no current competitions running.`})
+      calculatingMessage.delete()
+    } else if (myFoundUser){
       message.reply({content: `For the ${recentCompetition.title} competition, ${myFoundUser.displayName} has gained ${myFoundUser.progress.gained} experience!`})
       calculatingMessage.delete()
     } else {
