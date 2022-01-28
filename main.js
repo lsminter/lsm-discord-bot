@@ -32,7 +32,6 @@ client.on("messageCreate", async message => {
   }
 
   else if (command === "event") {
-    console.log(args)
     //Takes the last item in the array and assigns it to minutes
     const minutes = args.pop()
 
@@ -97,10 +96,12 @@ client.on("messageCreate", async message => {
     const calculatingMessage = await message.reply({content: "Calculating... Please be patient"})
 
     const groupId = process.env.WISE_OLD_MAN_GROUP_ID
-    const recentCompetitionId = await fetch(`https://wiseoldman.net/api/groups/${groupId}/competitions`)
+    const recentCompetition = await fetch(`https://wiseoldman.net/api/groups/${groupId}/competitions`)
       .then(response => response.json())
-      .then(data => data[0].id)
+      .then(data => data[0])
     
+    const recentCompetitionId = recentCompetition.id
+
     
     const competitionData = await fetch(`https://wiseoldman.net/api/competitions/${recentCompetitionId}`)
       .then(response => response.json())
@@ -109,10 +110,10 @@ client.on("messageCreate", async message => {
       let myFoundUser = competitionData.find((user) => user.username === name)
 
       if (myFoundUser){
-        message.reply({content: `${myFoundUser.displayName} has gained ${myFoundUser.progress.gained} experience this competition!`})
+        message.reply({content: `For the ${recentCompetition.title} competition, ${myFoundUser.displayName} has gained ${myFoundUser.progress.gained} experience!`})
         calculatingMessage.delete()
       } else {
-        const errorMessage = await message.reply({content: `That username does not exist. Please try again.`})
+        const errorMessage = await message.reply({content: `The username "${name}" does not exist for the ${recentCompetition.title} competition. Please try again.`})
         calculatingMessage.delete()
         setTimeout(() => {
           errorMessage.delete()
