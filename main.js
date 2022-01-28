@@ -19,7 +19,7 @@ client.on("messageCreate", async message => {
   const command = args.shift().toLowerCase();
 
   if (command === "allcommands") {
-    message.reply({content: "The commands are !eventhelp, !event, and !eventstats."})
+    message.reply({content: "The commands are !eventhelp, !event, !eventstats, and !userstats."})
   }
   else if (command === "eventhelp") {
     const sentMessage = await message.reply(`To work the !event command, type !event, the event you want to do (it can be as many words as you want), how many people you want, and how many minutes until you want to do the event. Here is a template: !event Corp 4 20`)
@@ -107,19 +107,19 @@ client.on("messageCreate", async message => {
       .then(response => response.json())
       .then(data => data.participants)
 
-      let myFoundUser = competitionData.find((user) => user.username === name)
+    let myFoundUser = competitionData.find((user) => user.username === name)
 
-      if (myFoundUser){
-        message.reply({content: `For the ${recentCompetition.title} competition, ${myFoundUser.displayName} has gained ${myFoundUser.progress.gained} experience!`})
-        calculatingMessage.delete()
-      } else {
-        const errorMessage = await message.reply({content: `The username "${name}" does not exist for the ${recentCompetition.title} competition. Please try again.`})
-        calculatingMessage.delete()
-        setTimeout(() => {
-          errorMessage.delete()
-          message.delete()
-        }, 15000)
-      } 
+    if (myFoundUser){
+      message.reply({content: `For the ${recentCompetition.title} competition, ${myFoundUser.displayName} has gained ${myFoundUser.progress.gained} experience!`})
+      calculatingMessage.delete()
+    } else {
+      const errorMessage = await message.reply({content: `The username "${name}" does not exist for the ${recentCompetition.title} competition. Please try again.`})
+      calculatingMessage.delete()
+      setTimeout(() => {
+        errorMessage.delete()
+        message.delete()
+      }, 15000)
+    } 
   }
 });
 
