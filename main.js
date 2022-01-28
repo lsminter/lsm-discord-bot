@@ -93,7 +93,7 @@ client.on("messageCreate", async message => {
     message.reply({content: `The top three players are: First place is ${firstPlace} with ${firstPlaceXp} experience, Second place is ${secondPlace} with ${secondPlaceXp} experience, and Third place is ${thirdPlace} with ${thirdPlaceXp}!`})
   }
   else if (command === "userstats") {
-    const name = args.join(" ")
+    const name = args.join(" ").toLowerCase()
     const firstMessage = await message.reply({content: "Calculating... Please be patient"})
 
     const groupId = process.env.WISE_OLD_MAN_GROUP_ID
