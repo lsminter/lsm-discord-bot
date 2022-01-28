@@ -93,7 +93,7 @@ client.on("messageCreate", async message => {
     message.reply({content: `The top three players are: First place is ${firstPlace} with ${firstPlaceXp} experience, Second place is ${secondPlace} with ${secondPlaceXp} experience, and Third place is ${thirdPlace} with ${thirdPlaceXp}!`})
   }
   else if (command === "userstats") {
-    const name = args[0]
+    const name = args.join(" ")
     const firstMessage = await message.reply({content: "Calculating... Please be patient"})
 
     const groupId = process.env.WISE_OLD_MAN_GROUP_ID
@@ -111,8 +111,29 @@ client.on("messageCreate", async message => {
         message.reply({content: `${name} has gained ${value.progress.gained} experience this competition!`})
         firstMessage.delete()
       }
+      
+    //     console.log('Username doesn\'t exist')
+    //     const errorMessage = message.reply({content: `That username does not exist. Please try again.`})
+    //     firstMessage.delete()
+    //     setTimeout(() => {errorMessage.delete()}, 15000)
+      
     })
     
+    // const usersData = (user) => {
+    //   const path = "username"
+    //   return path.split(".").reduce(function(obj, field){
+    //     if(obj[field] === name){
+    //       message.reply({content: `${name} has gained ${user.progress.gained} experience this competition!`})
+    //     }
+    //     return false;
+    //   }, user)
+    // }
+
+    // competitionData.forEach(user => {
+    //   console.log(usersData(user))
+    // });
+
+
   }
 });
 
