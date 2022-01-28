@@ -15,6 +15,8 @@ Commands start with a `!`.
 
 `!eventstats` has the bot reply to the user with the WiseOldMan stats for the top three players in the most recent competition.  
 
+`!userstats` will search for the users' currently gained experience for the most recent WiseOldMan competition. 
+
 ## Deployment
 
 This bot is being deployed by Heroku. 

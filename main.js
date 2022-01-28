@@ -93,7 +93,7 @@ client.on("messageCreate", async message => {
     message.reply({content: `The top three players are: First place is ${firstPlace} with ${firstPlaceXp} experience, Second place is ${secondPlace} with ${secondPlaceXp} experience, and Third place is ${thirdPlace} with ${thirdPlaceXp}!`})
   }
   else if (command === "userstats") {
-    const name = args.join(" ").toLowerCase()
+    const name = args.join(" ")
     const firstMessage = await message.reply({content: "Calculating... Please be patient"})
 
     const groupId = process.env.WISE_OLD_MAN_GROUP_ID
@@ -107,7 +107,7 @@ client.on("messageCreate", async message => {
       .then(data => data.participants)
 
     const usersStats = competitionData.map(function(value) {
-      if (name === value.username){
+      if (name.toLowerCase() === value.username){
         message.reply({content: `${name} has gained ${value.progress.gained} experience this competition!`})
         firstMessage.delete()
       }
