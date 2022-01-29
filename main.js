@@ -78,7 +78,7 @@ client.on("messageCreate", async message => {
   else if (command === "eventstats" ){
 
     const calculatingMessage = await message.reply({content: "Calculating... Please be patient"})
-    
+
     const groupId = process.env.WISE_OLD_MAN_GROUP_ID
     const recentCompetition = await fetch(`https://wiseoldman.net/api/groups/${groupId}/competitions`)
       .then(response => response.json())
@@ -108,6 +108,7 @@ client.on("messageCreate", async message => {
       calculatingMessage.delete()
     } else {
       message.reply({content: `The top three players are: First place is ${firstPlace} with ${firstPlaceXp} experience, Second place is ${secondPlace} with ${secondPlaceXp} experience, and Third place is ${thirdPlace} with ${thirdPlaceXp}!`})
+      calculatingMessage.delete()
     }
   }
   else if (command === "userstats") {
