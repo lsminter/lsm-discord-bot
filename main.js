@@ -106,9 +106,9 @@ client.on("messageCreate", async message => {
     if (todayUNIX > endDateUNIX) {
       const compMessage = await message.reply({content: `There are no current competitions running.`})
       calculatingMessage.delete()
+      message.delete()
       setTimeout(() => {
         compMessage.delete()
-        message.delete()
       }, 15000)
     } else {
       message.reply({content: `The top three players are: First place is ${firstPlace} with ${firstPlaceXp} experience, Second place is ${secondPlace} with ${secondPlaceXp} experience, and Third place is ${thirdPlace} with ${thirdPlaceXp}!`})
@@ -174,9 +174,9 @@ client.on("messageCreate", async message => {
     if (todayUNIX > endDateUNIX) {
       const compMessage = await message.reply({content: `There are no current competitions running.`})
       calculatingMessage.delete()
+      message.delete()
       setTimeout(() => {
         compMessage.delete()
-        message.delete()
       }, 15000)
     } else if (myFoundUser){
       message.reply({content: `For the ${recentCompetition.title} competition, ${myFoundUser.displayName} has gained ${myFoundUser.progress.gained} experience!`})
