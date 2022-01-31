@@ -104,8 +104,12 @@ client.on("messageCreate", async message => {
     const todayUNIX = Math.floor(today.getTime() / 1000)
 
     if (todayUNIX > endDateUNIX) {
-      message.reply({content: `There are no current competitions running.`})
+      const compMessage = await message.reply({content: `There are no current competitions running.`})
       calculatingMessage.delete()
+      setTimeout(() => {
+        compMessage.delete()
+        message.delete()
+      }, 15000)
     } else {
       message.reply({content: `The top three players are: First place is ${firstPlace} with ${firstPlaceXp} experience, Second place is ${secondPlace} with ${secondPlaceXp} experience, and Third place is ${thirdPlace} with ${thirdPlaceXp}!`})
       calculatingMessage.delete()
@@ -168,8 +172,12 @@ client.on("messageCreate", async message => {
     const todayUNIX = Math.floor(today.getTime() / 1000)
 
     if (todayUNIX > endDateUNIX) {
-      message.reply({content: `There are no current competitions running.`})
+      const compMessage = await message.reply({content: `There are no current competitions running.`})
       calculatingMessage.delete()
+      setTimeout(() => {
+        compMessage.delete()
+        message.delete()
+      }, 15000)
     } else if (myFoundUser){
       message.reply({content: `For the ${recentCompetition.title} competition, ${myFoundUser.displayName} has gained ${myFoundUser.progress.gained} experience!`})
       calculatingMessage.delete()
