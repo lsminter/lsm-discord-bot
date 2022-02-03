@@ -57,91 +57,58 @@ client.on("messageCreate", async message => {
     const currentTime = Math.round((new Date()).getTime() / 1000)
     const remainingTime = `<t:${currentTime + (minutes * 60)}:R>`
     const deleteTimer = (minutes * 60000) + 60000
-    if (remainingTime === '<t:NaN:R>'){
-      const sentMessage = await message.reply('Your minutes has to be only a number. Check your command and try again.')
-      
-      //deletes the user's message after 30s
-      setTimeout(() => {message.delete()}, 30000)
-        
-      //deletes the bot's message after 30s
-      setTimeout(() => {sentMessage.delete()}, 30000)
 
-      message.delete()
-      botEventMessage.delete()
-      botNumberMessage.delete()
-      botTimeMessage.delete()
-      botRequirementMessage.delete()
-      
-      const firstMessageId = firstResponse.first().id
-      const userFirstMessage = await message.channel.messages.fetch(firstMessageId)
-      userFirstMessage.delete()
-      
-      const secondMessageId = secondResponse.first().id
-      const userSecondMessage = await message.channel.messages.fetch(secondMessageId)
-      userSecondMessage.delete()
+    const embedEvent = {
+      color: 0x0099ff,
+      title: userEventResponse + " Event",
+      description: `${message.author} is looking for a group to do ${userEventResponse}. Reply to this message with 👆 if you are interested.`,
+      fields: [
+        {
+          name: 'Time till event', 
+          value: remainingTime,
+          inline: true
+        },
+        {
+          name: 'How many people wanted', 
+          value: userNumberResponse,
+          inline: true
+        },
+        {
+          name: 'Requirements for Event', 
+          value: userRequirementResponse
+        },
 
-      const thirdMessageId = thirdResponse.first().id
-      const userThirdMessage = await message.channel.messages.fetch(thirdMessageId)
-      userThirdMessage.delete()
-
-      const fourthMessageId = fourthResponse.first().id
-      const userFourthMessage = await message.channel.messages.fetch(fourthMessageId)
-      userFourthMessage.delete()
-    } 
-    else 
-    {
-      const embedEvent = {
-        color: 0x0099ff,
-        title: userEventResponse + " Event",
-        description: `${message.author} is looking for a group to do ${userEventResponse} ${remainingTime}. Reply to this message with 👆 if you are interested.`,
-        fields: [
-          {
-            name: 'Time till event', 
-            value: remainingTime,
-            inline: true
-          },
-          {
-            name: 'How many people wanted', 
-            value: userNumberResponse,
-            inline: true
-          },
-          {
-            name: 'Requirements for Event', 
-            value: userRequirementResponse
-          },
-
-        ]
-      }
-      
-      const embedMessage = await message.reply({ embeds: [embedEvent]})
-      embedMessage.react('👆')
-      
-      message.delete()
-      botEventMessage.delete()
-      botNumberMessage.delete()
-      botTimeMessage.delete()
-      botRequirementMessage.delete()
-      
-      const firstMessageId = firstResponse.first().id
-      const userFirstMessage = await message.channel.messages.fetch(firstMessageId)
-      userFirstMessage.delete()
-      
-      const secondMessageId = secondResponse.first().id
-      const userSecondMessage = await message.channel.messages.fetch(secondMessageId)
-      userSecondMessage.delete()
-
-      const thirdMessageId = thirdResponse.first().id
-      const userThirdMessage = await message.channel.messages.fetch(thirdMessageId)
-      userThirdMessage.delete()
-
-      const fourthMessageId = fourthResponse.first().id
-      const userFourthMessage = await message.channel.messages.fetch(fourthMessageId)
-      userFourthMessage.delete()
-
-      setTimeout(() =>{
-        embedMessage.delete()
-      }, deleteTimer)        
+      ]
     }
+    
+    const embedMessage = await message.reply({ embeds: [embedEvent]})
+    embedMessage.react('👆')
+    
+    message.delete()
+    botEventMessage.delete()
+    botNumberMessage.delete()
+    botTimeMessage.delete()
+    botRequirementMessage.delete()
+    
+    const firstMessageId = firstResponse.first().id
+    const userFirstMessage = await message.channel.messages.fetch(firstMessageId)
+    userFirstMessage.delete()
+    
+    const secondMessageId = secondResponse.first().id
+    const userSecondMessage = await message.channel.messages.fetch(secondMessageId)
+    userSecondMessage.delete()
+
+    const thirdMessageId = thirdResponse.first().id
+    const userThirdMessage = await message.channel.messages.fetch(thirdMessageId)
+    userThirdMessage.delete()
+
+    const fourthMessageId = fourthResponse.first().id
+    const userFourthMessage = await message.channel.messages.fetch(fourthMessageId)
+    userFourthMessage.delete()
+
+    setTimeout(() =>{
+      embedMessage.delete()
+    }, deleteTimer) 
   }
   else if (command === "eventstats" ){
 
