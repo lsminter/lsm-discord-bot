@@ -1,4 +1,4 @@
-import { Client, Intents } from "discord.js"
+import { Client, Intents, Message, MessageEmbed } from "discord.js"
 import fetch from "node-fetch";
 import dotenv from 'dotenv'
 dotenv.config()
@@ -189,6 +189,69 @@ client.on("messageCreate", async message => {
         message.delete()
       }, 15000)
     } 
+  }
+  else if (command === "test") {    
+    const botEventMessage = await message.reply({ content: "What is the name of your event?"})
+    
+    const firstResponse = await message.channel.awaitMessages({ max: 1 })
+    const userEventResponse = await firstResponse.first().content
+
+    const botNumberMessage = await message.reply ({ content: `How many people do you want for ${userEventResponse}`})
+    const secondResponse = await message.channel.awaitMessages({ max: 1 })
+    const userNumberResponse = secondResponse.first().content
+
+    const botTimeMessage = await message.reply ({ content: `In how many minutes do you want to do ${userEventResponse}`})
+    const thirdResponse = await message.channel.awaitMessages({ max: 1 })
+    const userTimeResponse = thirdResponse.first().content
+
+    const botRequirementMessage = await message.reply ({ content: `Do you have any requirements for the event ${userEventResponse}`})
+    const fourthResponse = await message.channel.awaitMessages({ max: 1 })
+    const userRequirementResponse = fourthResponse.first().content
+
+    const minutes = userTimeResponse
+    const currentTime = Math.round((new Date()).getTime() / 1000)
+    const remainingTime = `<t:${currentTime + (minutes * 60)}:R>`
+    const deleteTimer = (minutes * 60000) + 60000
+
+    const exampleEmbed = new MessageEmbed()
+      .setColor('#0099ff')
+      .setTitle(userEventResponse)
+      .setDescription(`${message.author} is looking for a group to do ${userEventResponse}`)
+      .addFields(
+        { name: '\u200B', value: '\u200B' },
+        { name: 'Time till event', value: remainingTime, inline: true },
+        { name: 'How many people', value: userNumberResponse, inline: true },
+        { name: `Requirements`, value: userRequirementResponse}
+    )
+    
+    const embedMessage = await message.reply({ embeds: [exampleEmbed]})
+    embedMessage.react('👆')
+    
+    message.delete()
+    botEventMessage.delete()
+    botNumberMessage.delete()
+    botTimeMessage.delete()
+    botRequirementMessage.delete()
+    
+    const firstMessageId = firstResponse.first().id
+    const userFirstMessage = await message.channel.messages.fetch(firstMessageId)
+    userFirstMessage.delete()
+    
+    const secondMessageId = secondResponse.first().id
+    const userSecondMessage = await message.channel.messages.fetch(secondMessageId)
+    userSecondMessage.delete()
+
+    const thirdMessageId = thirdResponse.first().id
+    const userThirdMessage = await message.channel.messages.fetch(thirdMessageId)
+    userThirdMessage.delete()
+
+    const fourthMessageId = fourthResponse.first().id
+    const userFourthMessage = await message.channel.messages.fetch(fourthMessageId)
+    userFourthMessage.delete()
+
+    setTimeout(() =>{
+      embedMessage.delete()
+    }, deleteTimer)
   }
 });
 
