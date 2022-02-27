@@ -225,6 +225,7 @@ client.on("messageCreate", async message => {
         errorMessage.delete()
         message.delete()
       }, 15000)
+      console.log('changing')
     } 
   }
 });
