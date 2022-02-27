@@ -1,4 +1,4 @@
-import { Client, Intents } from "discord.js"
+import { Client, Intents, Message, MessageEmbed } from "discord.js"
 import fetch from "node-fetch";
 import dotenv from 'dotenv'
 dotenv.config()
@@ -55,8 +55,7 @@ client.on("messageCreate", async message => {
 
     const minutes = userTimeResponse
     const currentTime = Math.round((new Date()).getTime() / 1000)
-    const remainingTime = currentTime + (minutes * 60)
-
+    const remainingTime = `<t:${currentTime + (minutes * 60)}:R>`
     const deleteTimer = (minutes * 60000) + 60000
 
     const embedEvent = {
@@ -65,8 +64,8 @@ client.on("messageCreate", async message => {
       description: `${message.author} is looking for a group to do ${userEventResponse}. Reply to this message with 👆 if you are interested.`,
       fields: [
         {
-          name: 'Time of event', 
-          value: `<t:${remainingTime}>`,
+          name: 'Time till event', 
+          value: remainingTime,
           inline: true
         },
         {
@@ -84,7 +83,7 @@ client.on("messageCreate", async message => {
     
     const embedMessage = await message.reply({ embeds: [embedEvent]})
     embedMessage.react('👆')
-
+    
     message.delete()
     botEventMessage.delete()
     botNumberMessage.delete()
@@ -111,7 +110,6 @@ client.on("messageCreate", async message => {
       embedMessage.delete()
     }, deleteTimer) 
   }
-
   else if (command === "eventstats" ){
 
     const calculatingMessage = await message.reply({content: "Calculating... Please be patient"})
