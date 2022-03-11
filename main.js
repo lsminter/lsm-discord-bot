@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 import dotenv from 'dotenv'
 dotenv.config()
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] });
 
 client.once('ready', () => {
   console.log('Ready!');
@@ -36,21 +36,21 @@ client.on("messageCreate", async message => {
   }
 
   else if (command === "event") {
-    const botEventMessage = await message.reply({ content: "What is the name of your event?"})
+    const botEventMessage = await message.author.send({ content: "What is the name of your event?"})
     
-    const firstResponse = await message.channel.awaitMessages({ max: 1 })
+    const firstResponse = await message.author.dmChannel.awaitMessages({ max: 1 })
     const userEventResponse = await firstResponse.first().content
 
-    const botNumberMessage = await message.reply ({ content: `How many people do you want for ${userEventResponse}`})
-    const secondResponse = await message.channel.awaitMessages({ max: 1 })
+    const botNumberMessage = await message.author.send ({ content: `How many people do you want for ${userEventResponse}`})
+    const secondResponse = await message.author.dmChannel.awaitMessages({ max: 1 })
     const userNumberResponse = secondResponse.first().content
 
-    const botTimeMessage = await message.reply ({ content: `In how many minutes do you want to do ${userEventResponse}`})
-    const thirdResponse = await message.channel.awaitMessages({ max: 1 })
+    const botTimeMessage = await message.author.send ({ content: `In how many minutes do you want to do ${userEventResponse}`})
+    const thirdResponse = await message.author.dmChannel.awaitMessages({ max: 1 })
     const userTimeResponse = thirdResponse.first().content
 
-    const botRequirementMessage = await message.reply ({ content: `Do you have any requirements for the event ${userEventResponse}`})
-    const fourthResponse = await message.channel.awaitMessages({ max: 1 })
+    const botRequirementMessage = await message.author.send ({ content: `Do you have any requirements for the event ${userEventResponse}`})
+    const fourthResponse = await message.author.dmChannel.awaitMessages({ max: 1 })
     const userRequirementResponse = fourthResponse.first().content
 
     const minutes = userTimeResponse
@@ -82,31 +82,11 @@ client.on("messageCreate", async message => {
       ]
     }
     
-    const embedMessage = await message.reply({ embeds: [embedEvent]})
+    
+    const embedMessage = await message.channel.send({ embeds: [embedEvent]})
     embedMessage.react('👆')
 
     message.delete()
-    botEventMessage.delete()
-    botNumberMessage.delete()
-    botTimeMessage.delete()
-    botRequirementMessage.delete()
-    
-    const firstMessageId = firstResponse.first().id
-    const userFirstMessage = await message.channel.messages.fetch(firstMessageId)
-    userFirstMessage.delete()
-    
-    const secondMessageId = secondResponse.first().id
-    const userSecondMessage = await message.channel.messages.fetch(secondMessageId)
-    userSecondMessage.delete()
-
-    const thirdMessageId = thirdResponse.first().id
-    const userThirdMessage = await message.channel.messages.fetch(thirdMessageId)
-    userThirdMessage.delete()
-
-    const fourthMessageId = fourthResponse.first().id
-    const userFourthMessage = await message.channel.messages.fetch(fourthMessageId)
-    userFourthMessage.delete()
-
     setTimeout(() =>{
       embedMessage.delete()
     }, deleteTimer) 
@@ -227,7 +207,7 @@ client.on("messageCreate", async message => {
       }, 15000)
       console.log('changing')
     } 
-  }
+  } 
 });
 
 await client.login(process.env.BOT_TOKEN)
