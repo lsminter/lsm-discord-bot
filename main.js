@@ -228,6 +228,12 @@ client.on("messageCreate", async message => {
       console.log('changing')
     } 
   }
+  else if (command === "team1"){
+    message.reply({content: "For the bingo event 4, Team 1 consists of: Acid Pools, Brimham, Complex, Drex, Getsmokbd, Im Okayy, Uzumaki Hamy, HorizonPH, Lesmondan, Lockluster, Minterhero, RetroJelly, Gol D Roger, Solid, Xiuol, Solo H"})
+  }
+  else if (command === "team2") {
+    message.reply({ content: "For the bingo event 4, Team 2 consists of: Busf, Cen Werd, Crunchips, Floki, Goff, Heights, Housework, Jecr, LuckyImp, Plod, Subview, Maidmento, Termi, Titterzz, Void-Cho, Solo W"})
+  }
 });
 
 await client.login(process.env.BOT_TOKEN)
