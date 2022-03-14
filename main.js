@@ -89,7 +89,7 @@ client.on("messageCreate", async message => {
       embedMessage.delete()
     }, deleteTimer) 
   }
-
+  // make any changes
   else if (command === "eventstats" ){
 
     const calculatingMessage = await message.reply({content: "Calculating... Please be patient"})
