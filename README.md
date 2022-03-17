@@ -11,7 +11,7 @@ Commands start with a `!`.
 
 `!eventhelp` will show you how to run the `!event` command. 
 
-`!event` has the bot reply to the user's message with the event_name, the number of people wanted for the event, and how long until the event starts. 
+`!event` will have the bot message the user in a private dm with quests for the following: the event_name, the number of people wanted for the event, how long until the event starts, and if there are any requirements for the event. 
 
 `!eventstats` has the bot reply to the user with the WiseOldMan stats for the top three players in the most recent competition.  
 
