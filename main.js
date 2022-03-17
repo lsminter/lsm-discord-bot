@@ -82,6 +82,7 @@ client.on("messageCreate", async message => {
     
     const embedMessage = await message.channel.send({ embeds: [embedEvent]})
     embedMessage.react('👆')
+    message.author.send({content: 'Event Created! Check back in the channel you sent the command in.'})
 
     message.delete()
     setTimeout(() =>{
