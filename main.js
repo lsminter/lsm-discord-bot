@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 import dotenv from 'dotenv'
 dotenv.config()
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES], partials: [ 'CHANNEL'] });
 
 client.once('ready', () => {
   console.log('Ready!');
@@ -35,11 +35,10 @@ client.on("messageCreate", async message => {
     setTimeout(() => {sentMessage.delete()}, 120000)
   }
 
-  else if (command === "test") {
-    const botEventMessage = await message.author.send({ content: "What is the name of your event?"}).catch()
-    const firstResponse = await message.author.dmChannel.awaitMessages({ max: 1, time: 50000 })
-    const userEventResponse = await firstResponse.first().content
-    
+  else if (command === "event") {
+    const botEventMessage = await message.author.send({ content: "What is the name of your event?"})
+    const firstResponse = await message.author.dmChannel.awaitMessages({ max: 1 })
+    const userEventResponse = firstResponse.first().content
     
     const botNumberMessage = await message.author.send ({ content: `How many people do you want for ${userEventResponse}`})
     const secondResponse = await message.author.dmChannel.awaitMessages({ max: 1 })
@@ -89,7 +88,6 @@ client.on("messageCreate", async message => {
       embedMessage.delete()
     }, deleteTimer) 
   }
-  // make any changes
   else if (command === "eventstats" ){
 
     const calculatingMessage = await message.reply({content: "Calculating... Please be patient"})
@@ -203,7 +201,6 @@ client.on("messageCreate", async message => {
         errorMessage.delete()
         message.delete()
       }, 15000)
-      console.log('changing')
     } 
   }
 });
