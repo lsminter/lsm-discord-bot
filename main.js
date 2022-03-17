@@ -36,7 +36,7 @@ client.on("messageCreate", async message => {
   }
 
   else if (command === "event") {
-    const botEventMessage = await message.author.send({ content: "What is the name of your event? You may cancel the event anytime while making the event by typing 'cancel'. You will still have to finish the prompts but the event will not get made."})
+    const botEventMessage = await message.author.send({ content: "What is the name of your event?"})
     const firstResponse = await message.author.dmChannel.awaitMessages({ max: 1 })
     const userEventResponse = firstResponse.first().content
     
@@ -80,19 +80,13 @@ client.on("messageCreate", async message => {
       ]
     }
     
-    if (userEventResponse === 'cancel' || userNumberResponse === 'cancel' || userTimeResponse === 'cancel' || userRequirementResponse=== 'cancel') {
-      message.author.send({content: 'You have canceled the event. Feel free to try again.'})
-      message.delete()
-    } else {
-      const embedMessage = await message.channel.send({ embeds: [embedEvent]})
-      embedMessage.react('👆')
+    const embedMessage = await message.channel.send({ embeds: [embedEvent]})
+    embedMessage.react('👆')
 
-      message.delete()
-      setTimeout(() =>{
-        embedMessage.delete()
-      }, deleteTimer) 
-    }
-    
+    message.delete()
+    setTimeout(() =>{
+      embedMessage.delete()
+    }, deleteTimer) 
   }
   else if (command === "eventstats" ){
 
