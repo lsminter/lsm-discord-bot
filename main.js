@@ -83,7 +83,7 @@ client.on("messageCreate", async message => {
     const embedMessage = await message.channel.send({ embeds: [embedEvent]})
     embedMessage.react('👆')
     message.author.send({content: 'Event Created! Check back in the channel you sent the command in.'})
-
+    client.
     message.delete()
     setTimeout(() =>{
       embedMessage.delete()
@@ -205,10 +205,10 @@ client.on("messageCreate", async message => {
     } 
   }
   else if (command === "team1"){
-    message.channel.send({content: "For the bingo event 4, Team 1 consists of: Acid Pools, Brimham, Complex, Drex, Getsmokbd, Im Okayy, Uzumaki Hamy, HorizonPH, Lesmondan, Lockluster, Minterhero, RetroJelly, Gol D Roger, Solid, Xiuol, Solo H"})
+    message.channel.send({content: "For the bingo event 4, Team 1 consists of: Acid Pools, Brimham, Complex, Drex, Getsmokbd, Im Okayy, Uzumaki Hamy, HorizonPH, Lesmondan, Lockluster, Minterhero, RetroJelly, Gol D Roger, Solid, Solo H, Termi, Unlukkie, Xiuol"})
   }
   else if (command === "team2") {
-    message.channel.send({ content: "For the bingo event 4, Team 2 consists of: Busf, Cen Werd, Crunchips, Floki, Goff, Heights, Housework, Jecr, LuckyImp, Plod, Subview, Maidmento, Termi, Titterzz, Void-Cho, Solo W"})
+    message.channel.send({ content: "For the bingo event 4, Team 2 consists of: Busf, Cen Werd, Crunchips, Floki, Goff, Heights, Housework, Jecr, LuckyImp, Plod, Subview, Maidmento, Titterzz, Void-Cho, Solo W"})
   }
 });
 
