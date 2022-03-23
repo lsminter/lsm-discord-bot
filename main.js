@@ -210,6 +210,9 @@ client.on("messageCreate", async message => {
   else if (command === "team2") {
     message.channel.send({ content: "For the bingo event 4, Team 2 consists of: Busf, Cen Werd, Crunchips, Floki, Goff, Heights, Housework, Jecr, LuckyImp, Plod, Subview, Maidmento, Titterzz, Void-Cho, Solo W"})
   }
+  else if (command === 'keyboard') {
+    message.channel.send({ content: "This is the UHK Keyboard. The whole reason I ordered this is because having to move my thumb under my palm to reach the cmd/option keys (on a mac) is literally fucking up my hand. More and more often, I'm getting longer lasting cramps and it gets to the point where I can almost not move my left thumb for 10 to 20 seconds. It's stuck pressed against my palm. This solves the issue of reaching under my hand. The three button thumb module an addon you can get. I got the addon so I could move the option/cmd keys to the right instead of under my hand."})
+  }
 });
 
 await client.login(process.env.BOT_TOKEN)
