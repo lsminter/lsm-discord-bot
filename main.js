@@ -175,9 +175,7 @@ client.on("messageCreate", async message => {
       .then(response => response.json())
       .then(data => data[0])
 
-    const recentCompetitionId = recentCompetition.id
-
-    const competitionData = await fetch(`https://wiseoldman.net/api/competitions/${recentCompetitionId}`)
+    const competitionData = await fetch(`https://wiseoldman.net/api/competitions/${recentCompetition.id}`)
       .then(response => response.json())
       .then(data => data.participants)
 
@@ -207,6 +205,38 @@ client.on("messageCreate", async message => {
         message.delete()
       }, 15000)
     } 
+  }
+
+  else if(command === 'bingostats'){
+    
+    const metric = args.join(" ").toLowerCase()
+    const underscoreMetric = metric.split(' ').join('_')
+
+    const groupId = process.env.WISE_OLD_MAN_GROUP_ID
+    const recentCompetition = await fetch(`https://wiseoldman.net/api/groups/${groupId}/competitions`)
+      .then(response => response.json())
+      .then(data => data[0])
+
+    const endingDate = new Date(recentCompetition.endsAt)
+    const endDateUNIX = Math.floor(endingDate.getTime() / 1000)    
+    
+    const today = new Date()
+    const todayUNIX = Math.floor(today.getTime() / 1000)
+
+    if (todayUNIX > endDateUNIX) {
+      const compMessage = await message.reply({content: `There are no current competitions running.`})
+      calculatingMessage.delete()
+      message.delete()
+      setTimeout(() => {
+        compMessage.delete()
+      }, 15000)
+    } else {
+      const metricLink = await message.reply({ content: `https://wiseoldman.net/competitions/${recentCompetition.id}/teams?metric=${underscoreMetric}`})
+      setTimeout(() => {
+        metricLink.delete()
+      }, 15000)
+      message.delete()
+    }
   }
 
   else if (command === 'keyboard') {
