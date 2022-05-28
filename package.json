@@ -11,8 +11,7 @@
     "discord.js": "^13.6.0",
     "dotenv": "^11.0.0",
     "node-fetch": "^3.2.0",
-    "nodemon": "^2.0.15",
-    "osrs-json-api": "^1.4.7"
+    "nodemon": "^2.0.15"
   },
   "scripts": {
     "start": "node main.js",
