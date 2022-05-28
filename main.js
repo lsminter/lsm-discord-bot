@@ -40,7 +40,7 @@ client.on("messageCreate", async message => {
     setTimeout(() => {sentMessage.delete()}, 120000)
   }
 
-  else if (command === "test") {
+  else if (command === "event") {
     const botEventMessage = await message.author.send({ content: "What is the name of your event?"})
     const firstResponse = await message.author.dmChannel.awaitMessages({ max: 1 })
     const userEventResponse = firstResponse.first().content
