@@ -1,6 +1,7 @@
 import { Client, Intents } from "discord.js"
 import fetch from "node-fetch";
 import dotenv from 'dotenv'
+import { Guild } from "discord.js";
 dotenv.config()
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES], partials: [ 'CHANNEL'] });
@@ -12,7 +13,10 @@ client.once('ready', () => {
 client.on("messageCreate", async message => {
   const prefix = "!"
   if (message.author.bot) return;
-  if (!message.content.startsWith(prefix)) return;
+  // if (!message.content.startsWith(prefix)) return;
+  if (message === 'inferno'){
+    message.reply({ content: `https://cdn.discordapp.com/attachments/866435059442384937/961420566131249152/ezgif.com-gif-maker_7.gif`})
+  }
 
   const commandBody = message.content.slice(prefix.length);
   const args = commandBody.split(' ');
@@ -27,7 +31,7 @@ client.on("messageCreate", async message => {
   }
 
   else if (command === "eventhelp") {
-    const sentMessage = await message.reply(`To work the !event command, type !event, the event you want to do (it can be as many words as you want), how many people you want, and how many minutes until you want to do the event. Here is a template: !event Corp 4 20`)
+    const sentMessage = await message.reply(`To work the !event command, type !event and the bot will dm you with some questions. Just respond to the questions and it will automatically post the event in the channel you typed the command in.`)
 
     //deletes the user's message instantly
     message.delete()
@@ -36,7 +40,7 @@ client.on("messageCreate", async message => {
     setTimeout(() => {sentMessage.delete()}, 120000)
   }
 
-  else if (command === "event") {
+  else if (command === "test") {
     const botEventMessage = await message.author.send({ content: "What is the name of your event?"})
     const firstResponse = await message.author.dmChannel.awaitMessages({ max: 1 })
     const userEventResponse = firstResponse.first().content
@@ -81,10 +85,10 @@ client.on("messageCreate", async message => {
       ]
     }
     
+    
     const embedMessage = await message.channel.send({ embeds: [embedEvent]})
     embedMessage.react('👆')
     message.author.send({content: 'Event Created! Check back in the channel you sent the command in.'})
-    client.
     message.delete()
     setTimeout(() =>{
       embedMessage.delete()
@@ -243,27 +247,12 @@ client.on("messageCreate", async message => {
     message.channel.send({ content: "I use a UHK Keyboard. The whole reason I have this keyboard is because having to move my thumb under my palm to reach the cmd/option keys (on a mac) is literally fucking up my hand. More and more often, I'm getting longer lasting cramps and it gets to the point where I can almost not move my left thumb for 10 to 20 seconds. It's stuck pressed against my palm. This solves the issue of reaching under my hand. The three button thumb module an addon you can get. I got the addon so I could move the option/cmd keys to the right instead of under my hand."})
   }
 
+  else if (command === 'userinfo') {
+    const discordUsername = args.join(" ").toLowerCase()
 
-
-  // Temporary commands for the Bingo.
-  else if (command === "team1"){
-    message.channel.send({content: "For the bingo event 4, Team 1 consists of: Acid Pools, Brimham, Complex, Drex, Getsmokbd, Im Okayy, Uzumaki Hamy, HorizonPH, Lesmondan, Lockluster, Minterhero, RetroJelly, Gol D Roger, Solid, Solo H, Termi, Unlukkie, Xiuol, Mc Red"})
-  }
-
-  else if (command === "team2") {
-    message.channel.send({ content: "For the bingo event 4, Team 2 consists of: Busf, Cen Werd, Crunchips, Floki, Goff, Heights, Housework, Jecr, LuckyImp, Plod, Subview, Maidmento, Titterzz, Void-Cho, Solo W"})
-  }
-
-  else if (command === '2020bingo'){
-    message.channel.send({content: 'Event: Tea Bingo 4. It\'s time to prepare yourselves! Bingo starts on the 19th March and will run for just over 2 weeks. Participants will be split into 2 or 3 teams. We already have some clan funds to give out to the winners but any donations would be much appreciated! Dates: 19th March to 3rd April.'})
-  }
-
-  else if (command === 'bingosheet'){
-    message.reply({ content: `https://docs.google.com/spreadsheets/d/1LX29pE3ID5QGHaSodtubRN_ZsFZNnbPZx41u2Tv7lDY/edit?usp=sharing`})
-  }
-  
-  else if (command === 'wiseoldman'){
-    message.reply({ content: `https://wiseoldman.net/competitions/9781`})
+    const clientId = await client.guilds.fetch('931644184580993154')
+    const memberList = clientId.members.fetch()
+    console.log(memberList)
   }
 });
 
