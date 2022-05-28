@@ -23,7 +23,7 @@ client.on("messageCreate", async message => {
   const command = args.shift().toLowerCase();
 
   if (command === "allcommands") {
-    const botMessage = await message.reply({content: "The commands are !eventhelp, !event, !eventstats, !lasteventstats, and !userstats."})
+    const botMessage = await message.reply({content: "The commands are !eventhelp, !event, !eventstats, !lasteventstats, !bingostats, and !userstats."})
     setTimeout(() => {
       botMessage.delete()
       message.delete()
@@ -245,14 +245,6 @@ client.on("messageCreate", async message => {
 
   else if (command === 'keyboard') {
     message.channel.send({ content: "I use a UHK Keyboard. The whole reason I have this keyboard is because having to move my thumb under my palm to reach the cmd/option keys (on a mac) is literally fucking up my hand. More and more often, I'm getting longer lasting cramps and it gets to the point where I can almost not move my left thumb for 10 to 20 seconds. It's stuck pressed against my palm. This solves the issue of reaching under my hand. The three button thumb module an addon you can get. I got the addon so I could move the option/cmd keys to the right instead of under my hand."})
-  }
-
-  else if (command === 'userinfo') {
-    const discordUsername = args.join(" ").toLowerCase()
-
-    const clientId = await client.guilds.fetch('931644184580993154')
-    const memberList = clientId.members.fetch()
-    console.log(memberList)
   }
 });
 
