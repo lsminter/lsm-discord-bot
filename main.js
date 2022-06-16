@@ -1,7 +1,13 @@
 import { Client, Intents } from "discord.js"
 import fetch from "node-fetch";
 import dotenv from 'dotenv'
-import { Guild } from "discord.js";
+import updateUserStats, {
+  endDateUNIX, 
+  todayUNIX, 
+  recentCompetitionId, 
+  competitionData, 
+  recentCompetition
+} from './components/updateWiseOldManFetchRequests.js'
 dotenv.config()
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES], partials: [ 'CHANNEL'] });
@@ -10,24 +16,50 @@ client.once('ready', () => {
   console.log('Ready!');
 });
 
+client.on('ready', () => {
+  var now = new Date();
+  var millisTill10 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 16, 0, 0, 0) - now;
+  if (millisTill10 < 0) {
+      millisTill10 += 86400000; // it's after 10am, try 10am tomorrow.
+}
+  console.log()
+  /*
+  I need to run this command every 24 hours, a few seconds before at the time of day that the competition ends at. 
+  */
+  const updateFunction = () => {
+    if (todayUNIX > endDateUNIX) {
+      return console.log('No competitions, did not run script.')
+    } else {
+      updateUserStats()
+      return console.log('Update all users statistics.')
+    }
+  }
+
+  setInterval(updateFunction, 86400000 )
+})
+
+
+// updateUserStats()
+
 client.on("messageCreate", async message => {
   const prefix = "!"
   if (message.author.bot) return;
   // if (!message.content.startsWith(prefix)) return;
-  if (message === 'inferno'){
-    message.reply({ content: `https://cdn.discordapp.com/attachments/866435059442384937/961420566131249152/ezgif.com-gif-maker_7.gif`})
-  }
-
+  
   const commandBody = message.content.slice(prefix.length);
   const args = commandBody.split(' ');
   const command = args.shift().toLowerCase();
-
+  
   if (command === "allcommands") {
     const botMessage = await message.reply({content: "The commands are !eventhelp, !event, !eventstats, !lasteventstats, !bingostats, and !userstats."})
     setTimeout(() => {
       botMessage.delete()
       message.delete()
     }, 30000)
+  }
+
+  else if (command === 'inferno'){
+    await message.reply({ content: `https://cdn.discordapp.com/attachments/866435059442384937/961420566131249152/ezgif.com-gif-maker_7.gif`})
   }
 
   else if (command === "eventhelp") {
@@ -95,20 +127,9 @@ client.on("messageCreate", async message => {
     }, deleteTimer) 
   }
 
-  else if (command === "eventstats" ){
+  else if (command === "userStats" ){
 
     const calculatingMessage = await message.reply({content: "Calculating... Please be patient"})
-
-    const groupId = process.env.WISE_OLD_MAN_GROUP_ID
-    const recentCompetition = await fetch(`https://wiseoldman.net/api/groups/${groupId}/competitions`)
-      .then(response => response.json())
-      .then(data => data[0])
-    
-    const recentCompetitionId = recentCompetition.id
-
-    const competitionData = await fetch(`https://wiseoldman.net/api/competitions/${recentCompetitionId}`)
-      .then(response => response.json())
-      .then(data => data.participants)
 
     const firstPlace = competitionData[0].username
     const firstPlaceXp = competitionData[0].progress.gained
@@ -116,12 +137,6 @@ client.on("messageCreate", async message => {
     const secondPlaceXp = competitionData[1].progress.gained
     const thirdPlace = competitionData[2].username
     const thirdPlaceXp = competitionData[2].progress.gained
-    
-    const endingDate = new Date(recentCompetition.endsAt)
-    const endDateUNIX = Math.floor(endingDate.getTime() / 1000)    
-    
-    const today = new Date()
-    const todayUNIX = Math.floor(today.getTime() / 1000)
 
     if (todayUNIX > endDateUNIX) {
       const compMessage = await message.reply({content: `There are no current competitions running.`})
@@ -140,30 +155,12 @@ client.on("messageCreate", async message => {
 
     const calculatingMessage = await message.reply({content: "Calculating... Please be patient"})
 
-    const groupId = process.env.WISE_OLD_MAN_GROUP_ID
-    const recentCompetition = await fetch(`https://wiseoldman.net/api/groups/${groupId}/competitions`)
-      .then(response => response.json())
-      .then(data => data[0])
-    
-    const recentCompetitionId = recentCompetition.id
-
-    const competitionData = await fetch(`https://wiseoldman.net/api/competitions/${recentCompetitionId}`)
-      .then(response => response.json())
-      .then(data => data.participants)
-
     const firstPlace = competitionData[0].username
     const firstPlaceXp = competitionData[0].progress.gained
     const secondPlace = competitionData[1].username
     const secondPlaceXp = competitionData[1].progress.gained
     const thirdPlace = competitionData[2].username
     const thirdPlaceXp = competitionData[2].progress.gained
-    
-    const endingDate = new Date(recentCompetition.endsAt)
-    const endDateUNIX = Math.floor(endingDate.getTime() / 1000)    
-    
-    const today = new Date()
-    const todayUNIX = Math.floor(today.getTime() / 1000)
-
     
     message.reply({content: `The top three players are: First place is ${firstPlace} with ${firstPlaceXp} experience, Second place is ${secondPlace} with ${secondPlaceXp} experience, and Third place is ${thirdPlace} with ${thirdPlaceXp}!`}) 
     calculatingMessage.delete()
@@ -174,22 +171,7 @@ client.on("messageCreate", async message => {
     const name = args.join(" ").toLowerCase()
     const calculatingMessage = await message.reply({content: "Calculating... Please be patient"})
 
-    const groupId = process.env.WISE_OLD_MAN_GROUP_ID
-    const recentCompetition = await fetch(`https://wiseoldman.net/api/groups/${groupId}/competitions`)
-      .then(response => response.json())
-      .then(data => data[0])
-
-    const competitionData = await fetch(`https://wiseoldman.net/api/competitions/${recentCompetition.id}`)
-      .then(response => response.json())
-      .then(data => data.participants)
-
-    let myFoundUser = competitionData.find((user) => user.username === name)    
-    
-    const endingDate = new Date(recentCompetition.endsAt)
-    const endDateUNIX = Math.floor(endingDate.getTime() / 1000)    
-    
-    const today = new Date()
-    const todayUNIX = Math.floor(today.getTime() / 1000)
+    let myFoundUser = competitionData.find((user) => user.username === name)
 
     if (todayUNIX > endDateUNIX) {
       const compMessage = await message.reply({content: `There are no current competitions running.`})
@@ -212,20 +194,10 @@ client.on("messageCreate", async message => {
   }
 
   else if(command === 'bingostats'){
+    const calculatingMessage = await message.reply({content: "Calculating... Please be patient"})
     
     const metric = args.join(" ").toLowerCase()
     const underscoreMetric = metric.split(' ').join('_')
-
-    const groupId = process.env.WISE_OLD_MAN_GROUP_ID
-    const recentCompetition = await fetch(`https://wiseoldman.net/api/groups/${groupId}/competitions`)
-      .then(response => response.json())
-      .then(data => data[0])
-
-    const endingDate = new Date(recentCompetition.endsAt)
-    const endDateUNIX = Math.floor(endingDate.getTime() / 1000)    
-    
-    const today = new Date()
-    const todayUNIX = Math.floor(today.getTime() / 1000)
 
     if (todayUNIX > endDateUNIX) {
       const compMessage = await message.reply({content: `There are no current competitions running.`})
@@ -235,7 +207,7 @@ client.on("messageCreate", async message => {
         compMessage.delete()
       }, 15000)
     } else {
-      const metricLink = await message.reply({ content: `https://wiseoldman.net/competitions/${recentCompetition.id}/teams?metric=${underscoreMetric}`})
+      const metricLink = await message.reply({ content: `https://wiseoldman.net/competitions/${recentCompetitionId}/teams?metric=${underscoreMetric}`})
       setTimeout(() => {
         metricLink.delete()
       }, 15000)
