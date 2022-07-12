@@ -1,7 +1,7 @@
 import { Client, Intents } from "discord.js"
 import fetch from "node-fetch";
 import dotenv from 'dotenv'
-import updateUserStats, {
+import updateAllUserStats, {
   endDateUNIX, 
   todayUNIX, 
   recentCompetitionId, 
@@ -15,28 +15,6 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_
 client.once('ready', () => {
   console.log('Ready!');
 });
-
-client.on('ready', () => {
-  var now = new Date();
-  var millisTill10 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 16, 0, 0, 0) - now;
-  if (millisTill10 < 0) {
-      millisTill10 += 86400000; // it's after 10am, try 10am tomorrow.
-}
-  console.log()
-  /*
-  I need to run this command every 24 hours, a few seconds before at the time of day that the competition ends at. 
-  */
-  const updateFunction = () => {
-    if (todayUNIX > endDateUNIX) {
-      return console.log('No competitions, did not run script.')
-    } else {
-      updateUserStats()
-      return console.log('Update all users statistics.')
-    }
-  }
-
-  setInterval(updateFunction, 86400000 )
-})
 
 
 // updateUserStats()
@@ -217,6 +195,15 @@ client.on("messageCreate", async message => {
 
   else if (command === 'keyboard') {
     message.channel.send({ content: "I use a UHK Keyboard. The whole reason I have this keyboard is because having to move my thumb under my palm to reach the cmd/option keys (on a mac) is literally fucking up my hand. More and more often, I'm getting longer lasting cramps and it gets to the point where I can almost not move my left thumb for 10 to 20 seconds. It's stuck pressed against my palm. This solves the issue of reaching under my hand. The three button thumb module an addon you can get. I got the addon so I could move the option/cmd keys to the right instead of under my hand."})
+  }
+
+  else if (command === 'updateall') {
+    if (todayUNIX > endDateUNIX) {
+      return console.log('No competitions, did not run script.')
+    } else {
+      updateAllUserStats()
+      message.channel.send({ content: "All players are being updated. This can take up to a few minutes."})
+    }
   }
 });
 

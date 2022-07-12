@@ -20,12 +20,7 @@ export const endDateUNIX = Math.floor(endingDate.getTime() / 1000)
 const today = new Date()
 export const todayUNIX = Math.floor(today.getTime() / 1000)
 
-export default function updateUserStats () {
+export default function updateAllUserStats () {
   return axios.post(`https://wiseoldman.net/api/competitions/${recentCompetitionId}/update-all`, {
   "verificationCode": `${process.env.VERIFICATION_CODE}`
 })}
-
-// setInterval(updateUserStats(), dailyTimer) 
-
-// const statsUpdatedMessage = updatedStats.data.message
-// console.log(updatedStats.data.message)
