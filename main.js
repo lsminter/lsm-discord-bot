@@ -129,6 +129,30 @@ client.on("messageCreate", async message => {
     }
   }
 
+  else if (command === "eventstats" ){
+
+    const calculatingMessage = await message.reply({content: "Calculating... Please be patient"})
+
+    const firstPlace = competitionData[0].username
+    const firstPlaceXp = competitionData[0].progress.gained
+    const secondPlace = competitionData[1].username
+    const secondPlaceXp = competitionData[1].progress.gained
+    const thirdPlace = competitionData[2].username
+    const thirdPlaceXp = competitionData[2].progress.gained
+
+    if (todayUNIX > endDateUNIX) {
+      const compMessage = await message.reply({content: `There are no current competitions running.`})
+      calculatingMessage.delete()
+      message.delete()
+      setTimeout(() => {
+        compMessage.delete()
+      }, 15000)
+    } else {
+      message.reply({content: `The top three players are: First place is ${firstPlace} with ${firstPlaceXp} experience, Second place is ${secondPlace} with ${secondPlaceXp} experience, and Third place is ${thirdPlace} with ${thirdPlaceXp}!`})
+      calculatingMessage.delete()
+    }
+  }
+
   else if (command === "lasteventstats" ){
 
     const calculatingMessage = await message.reply({content: "Calculating... Please be patient"})
