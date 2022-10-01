@@ -1,4 +1,5 @@
 import { Client, Intents } from "discord.js"
+import fetch from "node-fetch";
 import dotenv from 'dotenv'
 import updateAllUserStats, {
   endDateUNIX, 
