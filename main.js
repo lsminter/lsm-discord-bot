@@ -116,7 +116,7 @@ client.on("messageCreate", async message => {
     const thirdPlaceXp = competitionData[2].progress.gained
 
     if (todayUNIX > endDateUNIX) {
-      const compMessage = await message.reply({content: `There competitions currently running.`})
+      const compMessage = await message.reply({content: `There are no current competitions running.`})
       calculatingMessage.delete()
       message.delete()
       setTimeout(() => {
